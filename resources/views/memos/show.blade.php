@@ -21,9 +21,7 @@
             @method('DELETE')
             <input type="submit" value="削除する" onclick="if(!confirm('削除しますか？')){return false};">
 
-            {{-- @csrf
-        @method('DELETE')
-        onclickでメッセージ出るのはHTMLに元からある機能 --}}
+        {{-- onclickでメッセージ出るのはHTMLに元からある機能 --}}
 
         </form>
     </div>
