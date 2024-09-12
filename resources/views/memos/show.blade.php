@@ -12,6 +12,9 @@
     <p><a href ={{ route('memos.index') }}>戻る</a></p>
     <h1>{{ $memo->title }}</h1>
     <P>{!! nl2br(e($memo->body)) !!}</P>
+
+    <button onclick='location.href="{{ route("memos.edit", $memo) }}"'>編集する</button>
+
 </body>
 
 </html>
