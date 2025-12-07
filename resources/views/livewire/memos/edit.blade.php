@@ -1,30 +1,35 @@
 <?php
 
-use function Livewire\Volt\{state, rules};
+use function Livewire\Volt\{state, rules, mount};
 use App\Models\Memo;
 
-state(['title', 'body']);
+state(['memo', 'title', 'body']);
 
-//バリデーションルールを定義
+mount(function (Memo $memo) {
+    $this->memo = $memo;
+    $this->title = $memo->title;
+    $this->body = $memo->body;
+});
+
+//編集画面にバリデーションルールを定義
 rules([
     'title' => 'required|string|max:50',
     'body' => 'required|string|max:2000',
 ]);
 
-// メモを保存する関数
-$store = function () {
+$update = function () {
     $this->validate();
-    Memo::create($this->all());
-    //一覧ページにリダイレクト
-    return redirect()->route('memos.index');
+    $this->memo->update($this->all());
+    return redirect()->route('memos.show', $this->memo);
 };
+
 ?>
 
 <div>
-    <a href="{{ route('memos.index') }}">戻る</a>
-    <h1>新規登録</h1>
+    <a href="{{ route('memos.show', $memo) }}">戻る</a>
+    <h1>更新</h1>
 
-    <form wire:submit="store">
+    <form wire:submit="update">
         <p>
             <label for="title">タイトル</label>
             @error('title')
@@ -34,7 +39,7 @@ $store = function () {
             <input type="text" wire:model="title" id="title">
         </p>
         <p>
-            <label for="title">本文</label>
+            <label for="body">本文</label>
             @error('body')
                 <span class="error">{{ $message }}</span>
             @enderror
@@ -42,6 +47,6 @@ $store = function () {
             <textarea wire:model="body" id="body"></textarea>
         </p>
 
-        <button type="submit">登録</button>
+        <button type="submit">更新</button>
     </form>
 </div>
