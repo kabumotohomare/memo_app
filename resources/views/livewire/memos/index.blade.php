@@ -5,7 +5,7 @@ use App\Models\Memo;
 
 state(['memos' => fn() => Memo::all()]);
 
-$create=function(){
+$create = function () {
     return redirect()->route('memos.create');
 };
 ?>
@@ -14,7 +14,11 @@ $create=function(){
     <h1>タイトル一覧</h1>
     <ul>
         @foreach ($memos as $memo)
-            <li><a href="{{ route('memos.show', $memo) }}">{{ $memo -> title}}</a></li>
+            <li>
+                <a href="{{ route('memos.show', $memo->id) }}">
+                {{ $memo->title }}[{{ $memo->priority_text }}]
+                </a>
+            </li>
         @endforeach
     </ul>
 
